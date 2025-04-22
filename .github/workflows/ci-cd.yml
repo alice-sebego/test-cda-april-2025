@@ -25,6 +25,6 @@ jobs:
         run: |
           if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
             echo "🚀 Deploying to PRODUCTION environment"
-          elif [ "${GITHUB_REF}" == "refs/heads/dev" ]; then
+          elif [ "${GITHUB_REF}" == "refs/heads/develop" ]; then
             echo "🚀 Deploying to DEVELOPMENT environment"
           fi
