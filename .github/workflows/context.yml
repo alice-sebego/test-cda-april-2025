@@ -1,0 +1,20 @@
+name: contexte tests
+on: push
+
+env:
+  VAR_FROM_WORKFLOW: "from workflow"
+
+jobs:
+  test-variables:
+    runs-on: ubuntu-latest
+    env:
+      VAR_FROM_JOB: from job
+      VAR_FROM_WORKFLOW: "En fait je viens du step"
+    steps:
+      - name: ${{env.VAR_FROM_WORKFLOW}}
+        run: | 
+            echo "var depuis workflow: $VAR_FROM_WORKFLOW"
+            echo "var depuis workflow: ${{env.VAR_FROM_WORKFLOW}}"
+            echo "variable du projet: ${{vars.VARIABLE_PROJECT}}"
+            echo "secret du projet: ${{secrets.SECRET_PROJECT}}"
+            echo "branche du projet: ${{github.ref_name}}"
