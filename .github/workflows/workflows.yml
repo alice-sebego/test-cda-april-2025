@@ -11,8 +11,7 @@ jobs:
       - run: cd dirtest
       - run: touch filetext.txt
       - run: echo "File created filetext.txt"
-      - run: ls
-      - run: cd ..
+      - run: ls && cd ..
       - run: ls
   second-job:
     runs-on: ubuntu-latest
