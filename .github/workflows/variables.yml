@@ -20,5 +20,5 @@ jobs:
           echo "Var depuis step: $VAR_FROM_STEP"
           echo "Github ref: $GITHUB_REF"
           echo "Github event: $GITHUB_EVENT_NAME"
-          echo "Variable de projet: $VARIABLE_PROJECT"
-          echo "Secret de projet: $SECRET_PROJECT"
+          echo "Variable de projet: ${{vars.VARIABLE_PROJECT}}"
+          echo "Secret de projet: ${{secrets.SECRET_PROJECT}}"
