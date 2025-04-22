@@ -11,6 +11,7 @@ jobs:
       VAR_FROM_JOB: from job
       VAR_FROM_WORKFLOW: "En fait je viens du step"
     steps:
+      # pas possible d'utiliser en dehors de ru $NAME_STEP
       - name: ${{env.VAR_FROM_WORKFLOW}}
         run: | 
             echo "var depuis workflow: $VAR_FROM_WORKFLOW"
