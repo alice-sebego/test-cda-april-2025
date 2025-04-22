@@ -1,0 +1,22 @@
+name: "Creation a directory and a file"
+on: push
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: whoami
+      - run: ls
+      - run: mkdir dirtest
+      - run: cd dirtest
+      - run: touch filetext.txt
+      - run: echo "File created filetext.txt"
+      - run: ls
+      - run: cd ..
+      - run: ls
+  second-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This is the second job running after the first job."
+      - run: ls
+      - run: cat dirtest/filetext.txt
