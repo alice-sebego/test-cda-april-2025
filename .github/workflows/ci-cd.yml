@@ -1,0 +1,30 @@
+name: instructions for exo CI/CD
+on: 
+    push:
+        branches:
+            - main
+            - develop
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test:ci
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: |
+          if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
+            echo "🚀 Deploying to PRODUCTION environment"
+          elif [ "${GITHUB_REF}" == "refs/heads/dev" ]; then
+            echo "🚀 Deploying to DEVELOPMENT environment"
+          fi
