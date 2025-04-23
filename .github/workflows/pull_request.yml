@@ -2,11 +2,12 @@ name: pull request
 
 on:
   pull_request:
-    branches: -main
+    branches: 
+        - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo JOB DONE
+      - run: echo "JOB DONE"
 
