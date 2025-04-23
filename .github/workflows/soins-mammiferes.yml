@@ -1,0 +1,19 @@
+name: Soins des mammifères
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'mammiferes/**'
+
+jobs:
+  soins:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher les infos sur le push
+        run: |
+          echo "Message : ${{ github.event.head_commit.message }}"
+          echo "Type d'événement : ${{ github.event_name }}"
+          echo "Auteur : ${{ github.actor }}"
+      
