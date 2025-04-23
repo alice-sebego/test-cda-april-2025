@@ -7,78 +7,77 @@ on:
       - dev
 
 jobs: 
-    policier-scene:
-        name: Police Scene
-        runs-on: ubuntu-latest
-        outputs:
-            empreinte: ${{ steps.analyse.outputs.empreinte }}
-        steps:
-            - name: Analyse de la caisse
-              id: analyse
-              run: |
-                echo "Le policier examine la caisse enregistreuse"
-                echo "Empreinte prélevée sur la caisse"
-                echo "empreinte=empreinte trouvée sur la caisse" >> $GITHUB_OUTPUT
+  policier-scene:
+    name: Police Scene
+    runs-on: ubuntu-latest
+    outputs:
+      empreinte: ${{ steps.analyse.outputs.empreinte }}
+    steps:
+      - name: Analyse de la caisse
+        id: analyse
+        run: |
+          echo "Le policier examine la caisse enregistreuse"
+          echo "Empreinte prélevée sur la caisse"
+          echo "empreinte=empreinte trouvée sur la caisse" >> $GITHUB_OUTPUT
 
-    policier-video:
-        name: Police video
-        runs-on: ubuntu-latest
-        outputs:
-            video: ${{ steps.recuperation.outputs.video }}
-        steps:
-            - name: Récupération de la vidéo
-              id: recuperation
-              run: |
-                echo "Le policier récupère la vidéo de surveillance"
-                echo "Séquence vidéo 22h15-22h45 récupérée"
-                echo "resultat=Séquence vidéo 22h15-22h45 récupérée" >> $GITHUB_OUTPUT
-                echo "video=${GITHUB_OUTPUT}" >> $GITHUB_OUTPUT
+  policier-video:
+    name: Police video
+    runs-on: ubuntu-latest
+    outputs:
+      video: ${{ steps.recuperation.outputs.video }}
+    steps:
+      - name: Récupération de la vidéo
+        id: recuperation
+        run: |
+          echo "Le policier récupère la vidéo de surveillance"
+          echo "Séquence vidéo 22h15-22h45 récupérée"
+          echo "video=Séquence vidéo 22h15-22h45 récupérée" >> $GITHUB_OUTPUT
 
-    detective:
-        needs: [policier-scene, policier-video]
-        name: Detective
-        runs-on: ubuntu-latest
-        outputs:
-            conclusion: ${{ steps.rapport.outputs.conclusion }}
-            lieu: ${{ steps.rapport.outputs.lieu }}
-            autorisation: ${{ steps.rapport.outputs.autorisation }}
-        steps:
-            - name: Récupération des indices
-              run: |
-                echo "Empreinte : ${needs.policier-scene.outputs.empreinte}"
-                echo "Vidéo : ${needs.policier-video.outputs.video}"
-                echo "ANALYSE_EMPREINTE=Empreinte correspond à un suspect connu" >> $GITHUB_ENV
-                echo "ANALYSE_VIDEO=Suspect identifié sur la vidéo à 22h30" >> $GITHUB_ENV
+  detective:
+    needs: [policier-scene, policier-video]
+    name: Detective
+    runs-on: ubuntu-latest
+    outputs:
+      conclusion: ${{ steps.rapport.outputs.conclusion }}
+      lieu: ${{ steps.rapport.outputs.lieu }}
+      autorisation: ${{ steps.rapport.outputs.autorisation }}
+    steps:
+      - name: Récupération des indices
+        run: |
+          echo "Empreinte : ${{ needs.policier-scene.outputs.empreinte }}"
+          echo "Vidéo : ${{ needs.policier-video.outputs.video }}"
+          echo "ANALYSE_EMPREINTE=Empreinte correspond à un suspect connu" >> $GITHUB_ENV
+          echo "ANALYSE_VIDEO=Suspect identifié sur la vidéo à 22h30" >> $GITHUB_ENV
 
-            - name: Analyse des indices
-              run: |
-                echo "Analyse de l'empreinte : ${ANALYSE_EMPREINTE}"
-                echo "Analyse de la vidéo : ${ANALYSE_VIDEO}"
+      - name: Analyse des indices
+        run: |
+          echo "Analyse de l'empreinte : $ANALYSE_EMPREINTE"
+          echo "Analyse de la vidéo : $ANALYSE_VIDEO"
 
-            - name: Rapport final
-              id: rapport
-              run: |
-                echo "conclusion=${ANALYSE_EMPREINTE}, ${ANALYSE_VIDEO}, suspect identifié" >> $GITHUB_OUTPUT
-                echo "lieu=42 Avenue du Commerce, Supermarché SuperPrix" >> $GITHUB_OUTPUT
-                echo "autorisation=true" >> $GITHUB_OUTPUT
+      - name: Rapport final
+        id: rapport
+        run: |
+          echo "conclusion=$ANALYSE_EMPREINTE, $ANALYSE_VIDEO, suspect identifié" >> $GITHUB_OUTPUT
+          echo "lieu=42 Avenue du Commerce, Supermarché SuperPrix" >> $GITHUB_OUTPUT
+          echo "autorisation=true" >> $GITHUB_OUTPUT
 
-    police:
-        needs: detective
-        name: Police 
-        runs-on: ubuntu-latest
-        steps:
-        - name: Affichage du rapport
-          run: |
-            echo "Rapport : ${needs.detective.outputs.conclusion}"
-            echo "Lieu : ${needs.detective.outputs.lieu}"
-            echo "Autorisation : ${needs.detective.outputs.autorisation}"
+  police:
+    needs: detective
+    name: Police 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Affichage du rapport
+        run: |
+          echo "Rapport : ${{ needs.detective.outputs.conclusion }}"
+          echo "Lieu : ${{ needs.detective.outputs.lieu }}"
+          echo "Autorisation : ${{ needs.detective.outputs.autorisation }}"
 
-        - name: Enquête sans suite
-          if: needs.detective.outputs.autorisation == 'false'
-          run: |
-            echo "Pas d'autorisation, enquête sans suite"
+      - name: Enquête sans suite
+        if: ${{ needs.detective.outputs.autorisation == 'false' }}
+        run: |
+          echo "Pas d'autorisation, enquête sans suite"
 
-        - name: Arrestation
-          if: needs.detective.outputs.autorisation == 'true'
-          run: |
-            echo "Autorisation accordée, arrestation du suspect G. Lopez"
+      - name: Arrestation
+        if: ${{ needs.detective.outputs.autorisation == 'true' }}
+        run: |
+          echo "Autorisation accordée, arrestation du suspect G. Lopez"
