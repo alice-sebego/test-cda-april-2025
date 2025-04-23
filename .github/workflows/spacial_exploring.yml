@@ -13,25 +13,29 @@ jobs:
             duree: "7 mois"
             activite: "Analyse des roches"
             destination: "planete"
+            emoji: "🚀"
           - nom: Lune
             equipements: "Module lunaire, Combinaison spatiale"
             duree: "3 jours"
             activite: "Collecte d'échantillons"
             destination: "satellite"
+            emoji: "🌕"
           - nom: Venus
             equipements: "Sonde atmosphérique, Instruments scientifiques"
             duree: "5 mois"
             activite: "Analyse atmosphérique"
             destination: "planete"
+            emoji: "🪐"
     name: Exploration - ${{ matrix.mission.nom }}
     steps:
       - run: |
-          echo "=== Mission ${{ matrix.mission.nom }} ==="
-          echo "Équipements : ${{ matrix.mission.equipements }}"
-          echo "Durée du voyage : ${{ matrix.mission.duree }}"
-          echo "Activité principale : ${{ matrix.mission.activite }}"
-          echo "Type de destination : ${{ matrix.mission.destination }}"
-          echo "=== Fin de la mission ==="
+          echo "### Mission Logbook - ${{ matrix.mission.nom }} ${{ matrix.mission.emoji }}"
+          echo ""
+          echo "| 🔖 Mission | 🧰 Équipements | ⏳ Durée | 🧪 Activité | 🌍 Destination |"
+          echo "|------------|----------------|----------|-------------|----------------|"
+          echo "| ${{ matrix.mission.nom }} | ${{ matrix.mission.equipements }} | ${{ matrix.mission.duree }} | ${{ matrix.mission.activite }} | ${{ matrix.mission.destination }} |"
+          echo ""
+          echo "🎯 **Mission ${{ matrix.mission.nom }}** complete ✅"
 
   demandes_president:
     runs-on: ubuntu-latest
@@ -40,16 +44,22 @@ jobs:
       matrix:
         include:
           - nom: Mars
-            equipement_special: "Space Burger"
+            emoji: "🚀"
+            equipement_special: "🍔 Space Burger"
             commentaire: "Pour maintenir le moral de l'équipage"
           - nom: Lune
-            equipement_special: "Télescope pour observer les aliens"
+            emoji: "🌕"
+            equipement_special: "🔭 Télescope pour observer les aliens"
             commentaire: "Parce que les aliens existent, c'est sûr !"
           - nom: Venus
+            emoji: "🪐"
     name: Demandes Présidentielles - ${{ matrix.nom }}
     steps:
       - run: |
-          echo "=== Demande spéciale pour la mission ${{ matrix.nom }} ==="
-          echo "Équipement spécial : ${{ matrix.equipement_special || 'Pas besoin' }}"
-          echo "Commentaire : ${{ matrix.commentaire || 'Aucun commentaire' }}"
-          echo "=== Fin de la demande spéciale par l'autre là ==="
+          echo "### 📝 Demande présidentielle pour ${{ matrix.nom }} ${{ matrix.emoji }}"
+          echo ""
+          echo "| 🎁 Équipement spécial | 💬 Commentaire |"
+          echo "|------------------------|----------------|"
+          echo "| ${{ matrix.equipement_special || 'Pas besoin' }} | ${{ matrix.commentaire || 'Aucun commentaire' }} |"
+          echo ""
+          echo "👨‍✈️ Instructions présidentielles traitées ✅"
