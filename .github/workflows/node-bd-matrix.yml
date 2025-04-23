@@ -1,0 +1,22 @@
+name: Test Node.js App with Matrix
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+        database: [local, cloud]
+        exclude:
+          - node-version: 18
+            database: cloud
+    name: Test on Node.js ${{ matrix.node-version }} with ${{ matrix.database }} DB
+    steps:
+      - name: Show configuration
+        run: |
+          echo "🚀 Starting test"
+          echo "Node.js version: ${{ matrix.node-version }}"
+          echo "Database type: ${{ matrix.database }}"
+          echo "✅ Configuration ready for testing"
