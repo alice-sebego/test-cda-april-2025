@@ -18,4 +18,4 @@ jobs:
             git config --global user.name "GitHub Action"
             git add .
             git commit -m "Add test.txt"
-            git push origin main
+            git push origin develop
