@@ -21,7 +21,7 @@ jobs:
       pizzas: ${{ steps.extract.outputs.pizzas }}
     steps:
       - name: Message d'accueil
-        run: echo "🍕 Bienvenue ${{ github.event.inputs.nom_client }} chez PizzaCI - Express !"
+        run: echo "🍕 Bienvenue ${{ github.event.inputs.nom_client }} chez PizzaCI - Express by Luigi !"
 
       - name: Confirmation de la commande
         id: extract
